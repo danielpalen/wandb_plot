@@ -5,7 +5,7 @@ from wandb_plot.data_loader import load_data
 
 def plot_wandb(
     axis: matplotlib.pyplot.axis,
-    api: wandb.Axis,
+    api: wandb.Api,
     wandb_project_path: str,
     x_axis: str,
     y_axis: str,
