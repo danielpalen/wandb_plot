@@ -1,10 +1,10 @@
 import os
 import hashlib
 import pandas as pd
-import matplotlib
+import matplotlib.pyplot as plt
 
 def load_data(
-    api: matplotlib.pyplot.axis,
+    api: plt.Axes,
     wandb_project_path: str,
     x_axis: str,
     y_axes: list[str],
@@ -68,6 +68,10 @@ def load_data(
             df = pd.merge(df, run.history(keys=keys), on=x_axis, how='outer', suffixes=(None, f"/{run.id}"))
         except Exception as e:
             print('Error', e)
+
+  if df is None:
+    print('WARNING, dataframe is None')
+    return
 
   df = df.sort_values(x_axis)
 

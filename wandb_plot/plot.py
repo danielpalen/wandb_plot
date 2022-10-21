@@ -1,10 +1,10 @@
 import wandb
-import matplotlib
+import matplotlib.pyplot as plt
 
 from wandb_plot.data_loader import load_data
 
 def plot_wandb(
-    axis: matplotlib.pyplot.axis,
+    axis: plt.Axes,
     api: wandb.Api,
     wandb_project_path: str,
     x_axis: str,
