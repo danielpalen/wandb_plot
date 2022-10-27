@@ -25,10 +25,12 @@ def plot_wandb(
   if df is None: return
 
   # Plot mean
-  axis.plot(df[x_axis], df[f"{y_axis}/mean"], c=color, label=label)
+  p, = axis.plot(df[x_axis], df[f"{y_axis}/mean"], c=color, label=label)
 
   # plot shaded std
   if fill_between:
+    color = p.get_color() if color is None else color
+
     if fill_between == 'min_max':
       axis.fill_between(df[x_axis], df[f"{y_axis}/min"], df[f"{y_axis}/max"], alpha=0.2, color=color)
 
