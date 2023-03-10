@@ -77,7 +77,7 @@ def load_data(
 
   # Clean up
   df = df.rename(columns={k:f"{k}/{first_runs_id}" for k in y_axes})
-  df = df.drop(columns=[c for c in df.columns if c.startswith('_step')])
+  #df = df.drop(columns=[c for c in df.columns if c.startswith('_step')])
   df = df.replace('Infinity', 1e20)
 
   # For each y_axis we will now do some more cleanup and aggregation
@@ -97,8 +97,8 @@ def load_data(
         except Exception as e:
           print("Failed ewm smoothing", e)
 
-    if every_n_data_points:
-      df = df.iloc[::every_n_data_points, :]
+    # if every_n_data_points:
+    #   df = df.iloc[::every_n_data_points, :]
 
     # Statistics
     df[f'{y_axis}/mean'] = df[y_axis_runs].mean(axis=1)

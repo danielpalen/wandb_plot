@@ -16,6 +16,7 @@ def plot_wandb(
     color: str=None,
     fill_between: str=None, # min_max or [float]_std (i.e. 2_std)
     label=None,
+    custom_fn= lambda x: x,
     *args, **kwargs
 ):
   # Load data
@@ -23,6 +24,11 @@ def plot_wandb(
                  fill_nans=fill_nans, ewm=ewm, every_n_data_points=every_n_data_points, *args, **kwargs)
 
   if df is None: return
+
+  df = custom_fn(df)
+
+  if every_n_data_points:
+    df = df.iloc[::every_n_data_points, :]
 
   # Plot mean
   p, = axis.plot(df[x_axis], df[f"{y_axis}/mean"], c=color, label=label)
