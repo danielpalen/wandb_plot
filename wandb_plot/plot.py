@@ -41,16 +41,10 @@ def plot_wandb(
   y_axis_runs = [c for c in df.columns if c.startswith(y_axis) and not (c.split('/')[-1] in ['mean', 'min', 'max', 'std'])]
 
   percentile = .85
-  # df[f"{y_axis}/median"] = df[y_axis_runs].quantile(q=0.5, axis=1)
   df[f"{y_axis}/median"] = df[y_axis_runs].median(axis=1)
   df[f"{y_axis}/quantile_low"] = df[y_axis_runs].quantile(q=1.-percentile, axis=1)
   df[f"{y_axis}/quantile_high"] = df[y_axis_runs].quantile(q=percentile, axis=1)
 
-  # Sanity check that quantiles are in the correct order
-  # assert (df[f"{y_axis}/quantile_low"] <= df[f"{y_axis}/quantile_high"]).all()
-
-  # iqm_mask = (df[f"{y_axis}/quantile_low"].values[:,None] <= df[y_axis_runs].values) \
-  #   & (df[y_axis_runs].values <= df[f"{y_axis}/quantile_high"].values[:,None])
   
   df[f"{y_axis}/iqm"] = (df[y_axis_runs].quantile(q=0.25, axis=1) + df[y_axis_runs].quantile(q=0.75, axis=1)) / 2
 
