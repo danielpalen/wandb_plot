@@ -1,0 +1,5 @@
+/cache
+/plots
+
+.vscode
+__pycache__
