@@ -54,10 +54,24 @@ def plot_wandb(
   if smoothing:
     for c in ['mean', 'std', 'median', 'quantile_low', 'quantile_high', 'iqm']:
       c_name = f"{y_axis}/{c}"
+
+      # Gaussian Smoothing
       first_row_values = df[c_name].iloc[0].copy()
       df[c_name] = gaussian_filter1d(df[c_name], sigma=smoothing)
       # df[c_name].iloc[0] = first_row_values
       df.iloc[0, df.columns.get_loc(c_name)] = first_row_values
+
+      # Moving Average
+      # df[c_name] = df[c_name].rolling(window=smoothing).mean()
+      # df[c_name] = np.cumsum(df[c_name]) / np.arange(1, df[c_name].shape[0]+1)
+
+      # Window back Average
+      window_size = smoothing
+      mask = np.ones(window_size)
+      # mask[window_size:] = 0
+      # df[c_name] = np.convolve(df[c_name], mask / window_size, mode='same')
+      df[c_name] = np.convolve(df[c_name], mask / window_size, mode='full')[:-(window_size-1)]
+
 
   # Plot mean
   if not alternative_x_axis_fn:
